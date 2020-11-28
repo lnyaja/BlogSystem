@@ -1,0 +1,5 @@
+server:
+  port: 2020
+spring:
+  application:
+    name: blog_system
