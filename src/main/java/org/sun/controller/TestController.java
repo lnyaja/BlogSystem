@@ -1,25 +1,28 @@
 package org.sun.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.sun.pojo.Test;
+import org.sun.response.ResponseResult;
+import org.sun.response.ResponseState;
 
+@Slf4j
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
 
     @GetMapping("/hello")
-    public String helloWorld(){
+    public ResponseResult helloWorld(){
         System.out.println("hello world...");
-        return "hello";
+        return ResponseResult.SUCCESS().setData("hello world");
     }
 
-//    @GetMapping("/test-json")
-//    public User testJson(){
-////        User user = new User("特朗普",73,"male");
-////        House house = new House("白宫","白色");
-////        user.setHouse(house);
-////        return user;
-//    }
+    @PostMapping("/test-login")
+    public ResponseResult testLogin(@RequestBody Test user){
+        log.info("user name -== > " + user.getUserName());
+        log.info("password -== > " + user.getPassword());
+        ResponseResult loginSuccess = new ResponseResult(ResponseState.LOGIN_SUCCESS);
+        return loginSuccess.setData(user);
+    }
 }
