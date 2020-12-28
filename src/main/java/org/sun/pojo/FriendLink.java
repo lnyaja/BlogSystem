@@ -1,14 +1,13 @@
 package org.sun.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
-import java.util.Date;
 
 @Entity
 @Table ( name ="tb_friends" )
-public class Friends {
+public class FriendLink {
 
   	@Id
 	private String id;

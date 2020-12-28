@@ -1,45 +1,52 @@
 package org.sun.controller.user;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.sun.pojo.User;
+import org.sun.pojo.SobUser;
 import org.sun.response.ResponseResult;
+import org.sun.services.IUserService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserApi {
 
+    @Autowired
+    private IUserService userService;
+
     /**
      * 初始化管理员账号
      * @return
      */
     @PostMapping("/admin_account")
-    public ResponseResult initManagerAccount(@RequestBody User user){
-        log.info("user name == > " + user.getUser_name());
-        log.info("password == > " + user.getPassword());
-        log.info("email == > " + user.getEmail());
-        return ResponseResult.SUCCESS();
+    public ResponseResult initManagerAccount(@RequestBody SobUser sobUser, HttpServletRequest request){
+        log.info("user name == > " + sobUser.getUserName());
+        log.info("password == > " + sobUser.getPassword());
+        log.info("email == > " + sobUser.getEmail());
+        return userService.initManagerAccount(sobUser,request);
     }
 
     /**
      * 注册
-     * @param user
+     * @param sobUser
      * @return
      */
     @PostMapping
-    public ResponseResult register(@RequestBody User user){
+    public ResponseResult register(@RequestBody SobUser sobUser){
         return null;
     }
 
     /**
      * 登录
      * @param captcha
-     * @param user
+     * @param sobUser
      * @return
      */
     @PostMapping("/{captcha}")
-    public ResponseResult login(@PathVariable("captcha") String captcha, @RequestBody User user){
+    public ResponseResult login(@PathVariable("captcha") String captcha, @RequestBody SobUser sobUser){
         return null;
     }
 
@@ -65,11 +72,11 @@ public class UserApi {
 
     /**
      * 修改密码
-     * @param user
+     * @param sobUser
      * @return
      */
-    @PutMapping("/password")
-    public ResponseResult updatePassword(@RequestBody User user){
+    @PutMapping("/password/{userId}")
+    public ResponseResult updatePassword(@PathVariable("userId") String userId,@RequestBody SobUser sobUser){
         return null;
     }
 
@@ -85,11 +92,21 @@ public class UserApi {
 
     /**
      * 修改用户信息
-     * @param user
+     * @param sobUser
      * @return
      */
-    @PutMapping
-    public ResponseResult updateUserInfo(@RequestBody User user){
+    @PutMapping("/{userId}")
+    public ResponseResult updateUserInfo(@PathVariable("userId") String userId,@RequestBody SobUser sobUser){
+        return null;
+    }
+
+    @GetMapping("/list")
+    public ResponseResult listUsers(@RequestParam("page")int page, @RequestParam("size")int size){
+        return null;
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseResult deleteUser(@PathVariable("userId")String userId){
         return null;
     }
 }

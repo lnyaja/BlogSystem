@@ -1,14 +1,13 @@
 package org.sun.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
-import java.util.Date;
 
 @Entity
 @Table ( name ="tb_categories" )
-public class Categories {
+public class Category {
 
   	@Id
 	private String id;

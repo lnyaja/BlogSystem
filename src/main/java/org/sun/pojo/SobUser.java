@@ -1,14 +1,14 @@
 package org.sun.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
 import java.util.Date;
 
 @Entity
 @Table ( name ="tb_user" )
-public class User {
+public class SobUser {
 
   	@Id
 	private String id;
@@ -31,9 +31,9 @@ public class User {
   	@Column(name = "login_ip" )
 	private String login_ip;
   	@Column(name = "create_time" )
-	private java.sql.Timestamp create_time;
+	private Date create_time;
   	@Column(name = "update_time" )
-	private java.sql.Timestamp update_time;
+	private Date update_time;
 
 
 	public String getId() {
@@ -45,7 +45,7 @@ public class User {
 	}
 
 
-	public String getUser_name() {
+	public String getUserName() {
 		return user_name;
 	}
 
@@ -112,7 +112,7 @@ public class User {
 		return reg_ip;
 	}
 
-	public void setReg_ip(String reg_ip) {
+	public void setRegIp(String reg_ip) {
 		this.reg_ip = reg_ip;
 	}
 
@@ -121,25 +121,25 @@ public class User {
 		return login_ip;
 	}
 
-	public void setLogin_ip(String login_ip) {
+	public void setLoginIp(String login_ip) {
 		this.login_ip = login_ip;
 	}
 
 
-	public java.sql.Timestamp getCreate_time() {
+	public Date getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(java.sql.Timestamp create_time) {
+	public void setCreateTime(Date create_time) {
 		this.create_time = create_time;
 	}
 
 
-	public java.sql.Timestamp getUpdate_time() {
+	public Date getUpdateTime() {
 		return update_time;
 	}
 
-	public void setUpdate_time(java.sql.Timestamp update_time) {
+	public void setUpdateTime(Date update_time) {
 		this.update_time = update_time;
 	}
 
