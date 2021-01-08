@@ -1,5 +1,6 @@
 package org.sun;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.sun.utils.IdWorker;
 import org.sun.utils.RedisUtils;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Random;
 
 @Slf4j
 @EnableSwagger2
@@ -31,5 +34,15 @@ public class BlogApplication {
     @Bean
     public RedisUtils createRedisUtils(){
         return new RedisUtils();
+    }
+
+    @Bean
+    public Random createRandom(){
+        return new Random();
+    }
+
+    @Bean
+    public Gson createGson(){
+        return new Gson();
     }
 }

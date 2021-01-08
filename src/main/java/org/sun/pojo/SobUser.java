@@ -10,10 +10,39 @@ import java.util.Date;
 @Table ( name ="tb_user" )
 public class SobUser {
 
+	public SobUser(){
+
+	}
+
+	public SobUser(String id,
+				   String userName,
+				   String roles,
+				   String avatar,
+				   String email,
+				   String sign,
+				   String state,
+				   String regIp,
+				   String loginIp,
+				   Date createTime,
+				   Date updateTime){
+		this.id = id;
+		this.userName = userName;
+		this.roles = roles;
+		this.avatar = avatar;
+		this.email = email;
+		this.sign = sign;
+		this.state = state;
+		this.regIp = regIp;
+		this.loginIp = loginIp;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+		this.password = "";
+	}
+
   	@Id
 	private String id;
   	@Column(name = "user_name" )
-	private String user_name;
+	private String userName;
   	@Column(name = "password" )
 	private String password;
   	@Column(name = "roles" )
@@ -27,13 +56,13 @@ public class SobUser {
   	@Column(name = "state" )
 	private String state;
   	@Column(name = "reg_ip" )
-	private String reg_ip;
+	private String regIp;
   	@Column(name = "login_ip" )
-	private String login_ip;
+	private String loginIp;
   	@Column(name = "create_time" )
-	private Date create_time;
+	private Date createTime;
   	@Column(name = "update_time" )
-	private Date update_time;
+	private Date updateTime;
 
 
 	public String getId() {
@@ -46,11 +75,11 @@ public class SobUser {
 
 
 	public String getUserName() {
-		return user_name;
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String user_name) {
+		this.userName = user_name;
 	}
 
 
@@ -109,38 +138,38 @@ public class SobUser {
 
 
 	public String getReg_ip() {
-		return reg_ip;
+		return regIp;
 	}
 
 	public void setRegIp(String reg_ip) {
-		this.reg_ip = reg_ip;
+		this.regIp = reg_ip;
 	}
 
 
 	public String getLogin_ip() {
-		return login_ip;
+		return loginIp;
 	}
 
 	public void setLoginIp(String login_ip) {
-		this.login_ip = login_ip;
+		this.loginIp = login_ip;
 	}
 
 
 	public Date getCreate_time() {
-		return create_time;
+		return createTime;
 	}
 
 	public void setCreateTime(Date create_time) {
-		this.create_time = create_time;
+		this.createTime = create_time;
 	}
 
 
 	public Date getUpdateTime() {
-		return update_time;
+		return updateTime;
 	}
 
 	public void setUpdateTime(Date update_time) {
-		this.update_time = update_time;
+		this.updateTime = update_time;
 	}
 
 }
