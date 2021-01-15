@@ -108,7 +108,7 @@ public class Comment {
 		return createTime;
 	}
 
-	public void setCreateTime(java.sql.Timestamp create_time) {
+	public void setCreateTime(Date create_time) {
 		this.createTime = create_time;
 	}
 
@@ -117,7 +117,7 @@ public class Comment {
 		return updateTime;
 	}
 
-	public void setUpdateTime(java.sql.Timestamp update_time) {
+	public void setUpdateTime(Date update_time) {
 		this.updateTime = update_time;
 	}
 

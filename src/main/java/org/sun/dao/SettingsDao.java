@@ -7,4 +7,6 @@ import org.sun.pojo.Setting;
 public interface SettingsDao extends JpaRepository<Setting, String>, JpaSpecificationExecutor<Setting> {
 
     Setting findByKey(String key);
+
+    Setting findOneByKey(String key);
 }

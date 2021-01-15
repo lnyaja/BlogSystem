@@ -1,9 +1,12 @@
 package org.sun.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class CookieUtils {
 
     //1年
@@ -46,6 +49,10 @@ public class CookieUtils {
      */
     public static String getCookie(HttpServletRequest request, String key) {
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            log.info("cookies is null....");
+            return null;
+        }
         for (Cookie cookie : cookies) {
             if (key.equals(cookie.getName())) {
                 return cookie.getValue();

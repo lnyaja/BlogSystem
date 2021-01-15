@@ -20,9 +20,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.sun.dao.RefreshTokenDao;
 import org.sun.dao.SettingsDao;
 import org.sun.dao.UserDao;
+import org.sun.dao.UserNoPasswordDao;
 import org.sun.pojo.RefreshToken;
 import org.sun.pojo.Setting;
 import org.sun.pojo.SobUser;
+import org.sun.pojo.SobUserNoPassword;
 import org.sun.response.ResponseResult;
 import org.sun.response.ResponseState;
 import org.sun.services.IUserService;
@@ -38,7 +40,7 @@ import java.util.Random;
 @Slf4j
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends BaseService implements IUserService {
 
    @Autowired
    private IdWorker idWorker;
@@ -381,12 +383,12 @@ public class UserServiceImpl implements IUserService {
         //前端访问的时候，携带token的MD5key，从redis中获取即可
         String tokenKey = DigestUtils.md5DigestAsHex(token.getBytes());
         //保存token到redis里，有效期为2个小时，key是tokenKey
-        redisUtils.set(Constants.User.KEY_TOKEN + tokenKey, token, Constants.TimeValue.HOUR_2);
+        redisUtils.set(Constants.User.KEY_TOKEN + tokenKey, token, Constants.TimeValueInSecond.HOUR_2);
         //把tokenKey写到cookies里
         //这个要动态获取，可以从request里获取
         CookieUtils.setUpCookie(response, Constants.User.COOKIE_TOKEN_KEY, tokenKey);
         //生成refreshToken
-        String refreshTokenValue = JwtUtil.createRefreshToken(userFromDb.getId(), 60 * 60 * 24 * 30);
+        String refreshTokenValue = JwtUtil.createRefreshToken(userFromDb.getId(), Constants.TimeValueInMillion.MONTH);
         //保存到数据库里
         //refreshToken, tokenKey, 用户ID, 创建时间, 更新时间
         RefreshToken refreshToken = new RefreshToken();
@@ -509,6 +511,7 @@ public class UserServiceImpl implements IUserService {
         if (!TextUtils.isEmpty(sobUser.getAvatar())) {
             userFromDb.setAvatar(sobUser.getAvatar());
         }
+        userFromDb.setUpdateTime(new Date());
         //签名,可以为空
         userFromDb.setSign(sobUser.getSign());
         userDao.save(userFromDb);
@@ -547,6 +550,9 @@ public class UserServiceImpl implements IUserService {
         return ResponseResult.FAILED("用户不存在");
     }
 
+    @Autowired
+    private UserNoPasswordDao userNoPasswordDao;
+
     /**
      * 需要管理员权限
      * @param page
@@ -557,18 +563,13 @@ public class UserServiceImpl implements IUserService {
     public ResponseResult listUsers(int page, int size) {
         //可以获取用户列表
         //分页查询
-        if (page < Constants.Page.DEFAULT_PAGE){
-            page = Constants.Page.DEFAULT_PAGE;
-        }
-        //size限制，每一页不得少于5个
-        if (size < Constants.Page.MIN_SIZE){
-            size = Constants.Page.MIN_SIZE;
-        }
+        page = checkPage(page);
+        size = checkSize(size);
 
         //根据注册日期来排序
         Sort sort = new Sort(Sort.Direction.DESC, "createTime");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
-        Page<SobUser> all = userDao.listAllUserNoPassword(pageable);
+        Page<SobUserNoPassword> all = userNoPasswordDao.findAll(pageable);
         return ResponseResult.SUCCESS("获取用户列表成功").setData(all);
     }
 

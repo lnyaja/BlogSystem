@@ -310,6 +310,13 @@ public class EmailSender {
                 .to(address)
                 .send();
     }
+    public static void sendCommentNotify(String notifyContent, String address) throws Exception{
+        EmailSender.subject("博客系统评论通知")
+                .from("博客系统")
+                .text(notifyContent)
+                .to(address)
+                .send();
+    }
 }
 
 /*···

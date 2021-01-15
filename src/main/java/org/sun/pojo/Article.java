@@ -1,10 +1,10 @@
 package org.sun.pojo;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table ( name ="tb_article" )
@@ -15,30 +15,57 @@ public class Article {
   	@Column(name = "title" )
 	private String title;
   	@Column(name = "user_id" )
-	private String user_id;
+	private String userId;
   	@Column(name = "user_avatar" )
-	private String user_avatar;
+	private String userAvatar;
   	@Column(name = "user_name" )
-	private String user_name;
+	private String userName;
   	@Column(name = "category_id" )
-	private String category_id;
+	private String categoryId;
   	@Column(name = "content" )
 	private String content;
+  	//类型(0表示富文本、1表示markdown)
   	@Column(name = "type" )
 	private String type;
+  	@Column(name = "cover")
+  	private String cover;
+  	//0表示删除、1表示已经发布、2表示草稿、3表示置顶
   	@Column(name = "state" )
-	private String state;
+	private String state = "1";
   	@Column(name = "summary" )
 	private String summary;
   	@Column(name = "labels" )
-	private String labels;
+	private String label;
   	@Column(name = "view_count" )
-	private long view_count;
+	private long viewCount = 0L;
   	@Column(name = "create_time" )
-	private java.sql.Timestamp create_time;
+	private Date createTime;
   	@Column(name = "update_time" )
-	private java.sql.Timestamp update_time;
+	private Date updateTime;
 
+  	@OneToOne(targetEntity = SobUserNoPassword.class)
+  	@JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+  	private SobUserNoPassword sobUser;
+
+
+  	@Transient
+  	private List<String> labels = new ArrayList<>();
+
+	public List<String> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
+	}
+
+	public SobUserNoPassword getSobUser() {
+		return sobUser;
+	}
+
+	public void setSobUser(SobUserNoPassword sobUser) {
+		this.sobUser = sobUser;
+	}
 
 	public String getId() {
 		return id;
@@ -57,42 +84,37 @@ public class Article {
 		this.title = title;
 	}
 
-
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-
-	public String getUser_avatar() {
-		return user_avatar;
+	public String getUserAvatar() {
+		return userAvatar;
 	}
 
-	public void setUser_avatar(String user_avatar) {
-		this.user_avatar = user_avatar;
+	public void setUserAvatar(String userAvatar) {
+		this.userAvatar = userAvatar;
 	}
 
-
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-
-	public String getCategory_id() {
-		return category_id;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory_id(String category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
-
 
 	public String getContent() {
 		return content;
@@ -102,7 +124,6 @@ public class Article {
 		this.content = content;
 	}
 
-
 	public String getType() {
 		return type;
 	}
@@ -111,6 +132,13 @@ public class Article {
 		this.type = type;
 	}
 
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 
 	public String getState() {
 		return state;
@@ -120,7 +148,6 @@ public class Article {
 		this.state = state;
 	}
 
-
 	public String getSummary() {
 		return summary;
 	}
@@ -129,40 +156,48 @@ public class Article {
 		this.summary = summary;
 	}
 
+	public String getLabel() {
+		//打散到集合里
+		this.labels.clear();
+		if (this.label != null) {
+			if (!this.label.contains("-")) {
+				this.labels.add(this.label);
+			} else {
+				String[] split = this.label.split("-");
+				List<String> strings = Arrays.asList(split);
+				this.labels.addAll(strings);
+			}
+		}
 
-	public String getLabels() {
-		return labels;
+
+		return label;
 	}
 
-	public void setLabels(String labels) {
-		this.labels = labels;
+	public void setLabel(String labels) {
+		this.label = labels;
 	}
 
-
-	public long getView_count() {
-		return view_count;
+	public long getViewCount() {
+		return viewCount;
 	}
 
-	public void setView_count(long view_count) {
-		this.view_count = view_count;
+	public void setViewCount(long viewCount) {
+		this.viewCount = viewCount;
 	}
 
-
-	public java.sql.Timestamp getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(java.sql.Timestamp create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-
-	public java.sql.Timestamp getUpdate_time() {
-		return update_time;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_time(java.sql.Timestamp update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
-
 }
